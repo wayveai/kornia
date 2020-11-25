@@ -144,8 +144,8 @@ def _transform_output_shape(output: Union[torch.Tensor, Tuple[torch.Tensor, torc
     if is_tuple:
         out_tensor, trans_matrix = output
     else:
-        out_tensor = output
-        trans_matrix = None
+        out_tensor = output  # type: ignore
+        trans_matrix = None  # type: ignore
 
     if trans_matrix is not None:
         if len(out_tensor.shape) > len(shape):  # if output is broadcasted
@@ -158,7 +158,7 @@ def _transform_output_shape(output: Union[torch.Tensor, Tuple[torch.Tensor, torc
                                          f'expected to be 1, got {out_tensor.shape[0]}'
         out_tensor = out_tensor.squeeze(0)
 
-    return (out_tensor, trans_matrix) if is_tuple else out_tensor  # type: ignore
+    return (out_tensor, trans_matrix) if is_tuple else out_tensor
 
 
 def _validate_shape(shape: Union[Tuple, torch.Size], required_shapes: Tuple[str, ...] = ("BCHW",)) -> None:
